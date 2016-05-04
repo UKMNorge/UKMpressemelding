@@ -1,0 +1,7 @@
+min_pr_homepage:
+    path:     /
+    defaults: { _controller: MinPRBundle:Default:index }
+
+min_pr_mypage:
+    path:    /{id}-{name}/
+    defaults: { _controller: MinPRBundle:Hjem:oversikt }

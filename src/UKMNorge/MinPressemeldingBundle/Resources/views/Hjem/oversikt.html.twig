@@ -1,0 +1,28 @@
+{% extends "MinPRBundle::layout.html.twig" %}
+
+{% block content %}
+	<h1>Presse-innhold for {{ avis.getName() }}</h1>
+	<p class="small">
+		<b>Nedslagsfelt:</b> 
+		
+		{% for kommune in avis.getNedslagsfelt() %}
+			{{ kommune.getName() }}{% if not loop.last %}, {% endif %}
+		{% else %}
+			Vi har ikke registrert noen kommuner til ditt nedslagsfelt.
+		{% endfor %}
+	</p>
+	
+	<h2>UKM-festivalen <small>{{ festivalen.get('pl_start')|dato("d.M") }} - {{ festivalen.get('pl_stop')|dato("d.M Y") }}</small></h2>
+	
+	<h3>Deltakere fra ditt nedslagsfelt</h3>
+	<ol class="list-unstyled">
+		{% for innslag in mine_innslag %}
+			<li class="well card">
+				{{ innslag.get('b_name') }}
+			</li>
+		{% else %}
+			<li>Ingen deltakere fra ditt registrerte nedslagsfelt deltar på UKM-festivalen i år</li>
+		{% endfor %}
+	</ol>
+	
+{% endblock %}
