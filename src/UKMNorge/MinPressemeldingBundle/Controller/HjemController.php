@@ -30,7 +30,7 @@ class HjemController extends Controller
 	    $festivalen = new \landsmonstring( $season );
 	    $TWIG['festivalen'] = $festivalen->monstring_get();
 	    
-	    $TWIG['nedslagsfelt'] = $TWIG['avis']->getNedslagsfeltAsCSV();
+	    $nedslagsfelt = $TWIG['avis']->getNedslagsfeltAsCSV();
 	    if( UKM_HOSTNAME == 'ukm.dev' ) {
 		    $nedslagsfelt[] = 2100;
 		    $nedslagsfelt[] = 2101;
