@@ -10,7 +10,7 @@
 			<ol class="list-unstyled">
 			{% for avis in aviser_i_fylket %}
 				<li class="well card">
-					<a href="{{ url( 'min_pr_mypage', {'id': avis.getId(), 'name': avis.getName()} ) }}">
+					<a href="{{ url( 'min_pr_mypage', {'id': avis.getId()} ) }}">
 						{{ avis.getName() }}
 					</a>
 				</li>

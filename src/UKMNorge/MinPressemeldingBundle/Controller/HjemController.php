@@ -13,7 +13,7 @@ use innslag as innslag;
 
 class HjemController extends Controller
 {
-    public function oversiktAction($id, $name)
+    public function oversiktAction($id)
     {
 	    require_once('UKM/avis.class.php');
 	    require_once('UKM/monstringer.class.php');
