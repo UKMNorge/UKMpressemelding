@@ -25,7 +25,7 @@ class BilderController extends Controller
 	    $bilde = new bilde( (int) $id );
 	    
 	    $TWIG = array('bilde' => $bilde);
-   		$TWIG['mediegrupper'] = array('kommune'=>'Lokalmønstring', 'fylke'=>'Fylkesfestival', 'land' => 'UKM-festivalen');
+   		$TWIG['mediegrupper'] = array('land'=>'UKM-festivalen', 'fylke'=>'Fylkesfestival', 'kommune'=>'Lokalmønstring');
    		$TWIG['avis'] = new avis( (int) $avis );
         return $this->render('MinPRBundle:Bilder:lastned.html.twig', $TWIG);
     }
