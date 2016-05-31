@@ -1,0 +1,57 @@
+{% extends "MinPRBundle::layout.html.twig" %}
+
+{% block content %}
+	<div class="col-xs-12 col-sm-4">
+		<img src="{{ bilde.getSize('medium').getUrl() }}" width="100%" />
+	</div>
+	
+	<div class="col-xs-12 col-sm-8">
+		<h1>Last ned bilde av "{{ bilde.getInnslag().getNavn() }}"</h1>	
+		
+		<p class="lead">KREDITERES: UKM Media / {{ bilde.getAuthor().getDisplayName() }}</p>
+		
+		
+		<ol class="list-unstyled">
+			<li><b>Høyoppløselig</b>: 
+				<a href="{{ bilde.getSize('original').getUrl() }}" target="_blank">
+					{{ bilde.getSize('original').getUrl() }}
+				</a>
+			</li>
+	
+			<li><b>Stort</b>: 
+				<a href="{{ bilde.getSize('large').getUrl() }}" target="_blank">
+					{{ bilde.getSize('large').getUrl() }}
+				</a>
+			</li>
+	
+			<li><b>Medium</b>: 
+				<a href="{{ bilde.getSize('medium').getUrl() }}" target="_blank">
+					{{ bilde.getSize('medium').getUrl() }}
+				</a>
+			</li>
+	
+	
+			<li><b>Kvadratisk miniatyrbilde</b>: 
+				<a href="{{ bilde.getSize('thumbnail').getUrl() }}" target="_blank">
+					{{ bilde.getSize('thumbnail').getUrl() }}
+				</a>
+			</li>
+		</ol>
+	</div>
+	
+	<hr />
+	
+	<div class="clearfix"></div>
+	
+	<div class="col-xs-12">
+		<h2>Alle bilder av {{ bilde.getInnslag().getNavn() }}</h2>
+		<div class="well">
+			{% embed "MinPRBundle:Bilder:bilder_av_innslag.html.twig" with {'innslag': bilde.getInnslag() } %}{% endembed %}
+		</div>
+	</div>
+	
+	<div class="clearfix"></div>
+	<p>
+		<a href="{{ url('min_pr_mypage', {'id': avis.getId() }) }}">Tilbake til ditt nedslagsfelt</a>
+	</p>
+{% endblock %}

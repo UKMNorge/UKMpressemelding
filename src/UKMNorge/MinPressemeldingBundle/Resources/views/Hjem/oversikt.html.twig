@@ -3,7 +3,7 @@
 {% block content %}
 	<h1>Presse-innhold for {{ avis.getName() }}</h1>
 	<p class="small">
-		<b>Nedslagsfelt:</b> 
+		<b>All informasjonen på denne siden er tilknyttet ditt registrerte nedslagsfelt:</b>
 		
 		{% for kommune in avis.getNedslagsfelt() %}
 			{{ kommune.getName() }}{% if not loop.last %}, {% endif %}
@@ -14,11 +14,19 @@
 	
 	<h2>UKM-festivalen <small>{{ festivalen.get('pl_start')|dato("d.M") }} - {{ festivalen.get('pl_stop')|dato("d.M Y") }}</small></h2>
 	
-	<h3>Deltakere fra ditt nedslagsfelt</h3>
+	<h3></h3>
 	<ol class="list-unstyled">
 		{% for innslag in mine_innslag %}
 			<li class="well card">
-				{{ innslag.get('b_name') }}
+				{% if innslag.list_image is defined and innslag.list_image is not empty %}
+					<img src="http://placehold.it/100x100" class="pull-left" />
+				{% endif %}
+				<h4>{{ innslag.getNavn() }}</h4>
+				
+				<div class="clearfix"></div>
+				<div class="col-xs-12">
+					{% embed "MinPRBundle:Bilder:bilder_av_innslag.html.twig" with {'innslag': innslag} %}{% endembed %}
+				</div>
 			</li>
 		{% else %}
 			<li>Ingen deltakere fra ditt registrerte nedslagsfelt deltar på UKM-festivalen i år</li>

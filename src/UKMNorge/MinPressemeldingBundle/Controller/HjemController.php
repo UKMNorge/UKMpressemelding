@@ -41,8 +41,11 @@ class HjemController extends Controller
 		    if( !in_array( $innslag->get('b_kommune'), $nedslagsfelt ) ) {
 			    continue;
 			}
+			
 			$TWIG['mine_innslag'][] = $innslag;
 		}
+		
+		$TWIG['mediegrupper'] = array('kommune'=>'Lokalmønstring', 'fylke'=>'Fylkesfestival', 'land' => 'UKM-festivalen');
 
         return $this->render('MinPRBundle:Hjem:oversikt.html.twig', $TWIG);
     }

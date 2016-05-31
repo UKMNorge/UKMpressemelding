@@ -5,3 +5,8 @@ min_pr_homepage:
 min_pr_mypage:
     path:    /{id}/
     defaults: { _controller: MinPRBundle:Hjem:oversikt }
+    
+    
+min_pr_bilder:
+    path:    /{avis}/bilde/{id}/
+    defaults: { _controller: MinPRBundle:Bilder:lastned }

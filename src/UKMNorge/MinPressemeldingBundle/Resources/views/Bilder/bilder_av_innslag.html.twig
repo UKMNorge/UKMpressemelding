@@ -1,0 +1,10 @@
+{% for key, name in mediegrupper if innslag.getBilder().getAllFrom(key)|length > 0 %}
+	<h5>Bilder fra {{ name }}</h5>
+	{% for bilde in innslag.getBilder().getAllFrom(key) %}
+		<a href="{{ url('min_pr_bilder', {'avis': avis.getId(), 'id': bilde.getId() }) }}">
+			<img src="{{ bilde.getSize('thumbnail').getUrl() }}" />
+		</a>
+	{% endfor %}
+{% else %}
+	<p>Vi har ingen bilder av {{ innslag.getNavn() }}</p>
+{% endfor %}
