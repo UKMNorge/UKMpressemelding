@@ -6,10 +6,11 @@
 		<b>All informasjonen på denne siden er tilknyttet ditt registrerte nedslagsfelt:</b>
 		
 		{% for kommune in avis.getNedslagsfelt() %}
-			{{ kommune.getNavn() }}{% if not loop.last %}, {% endif %}
+			{{ kommune.getNavn() }}{{ loop.last ? '.' : ', '}}
 		{% else %}
 			Vi har ikke registrert noen kommuner til ditt nedslagsfelt.
 		{% endfor %}
+		<a href="mailto:support@ukm.no?subject=MinPressemelding">Feil nedslagsfelt? Send oss en e-post</a>
 	</p>
 	
 	<h2>UKM-festivalen <small>{{ festivalen.get('pl_start')|dato("d.M") }} - {{ festivalen.get('pl_stop')|dato("d.M Y") }}</small></h2>
