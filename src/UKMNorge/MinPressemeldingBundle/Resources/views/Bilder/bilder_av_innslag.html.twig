@@ -2,7 +2,7 @@
 	<h5>Bilder fra {{ name }}</h5>
 	{% for bilde in innslag.getBilder().getAllFrom(key) %}
 		<a href="{{ url('min_pr_bilder', {'avis': avis.getId(), 'id': bilde.getId() }) }}">
-			<img src="{{ bilde.getSize('thumbnail').getUrl() }}" />
+			<img src="{{ bilde.getSize('thumbnail').getUrl() }}" alt="ID: {{ bilde.getId() }}" title="ID: {{ bilde.getId() }}" />
 		</a>
 	{% endfor %}
 {% else %}
