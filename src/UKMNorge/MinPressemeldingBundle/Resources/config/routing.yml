@@ -10,3 +10,7 @@ min_pr_mypage:
 min_pr_bilder:
     path:    /{avis}/bilde/{id}/
     defaults: { _controller: MinPRBundle:Bilder:lastned }
+
+min_pr_ukmtv:
+    path:    /{avis}/ukmtv/{b_id}/
+    defaults: { _controller: MinPRBundle:Filmer:bygginn }

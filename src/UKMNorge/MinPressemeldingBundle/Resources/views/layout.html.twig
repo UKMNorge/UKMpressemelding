@@ -13,6 +13,14 @@
 </style>
 {% endblock %}
 
+{% block scripts %}
+<script>
+jQuery(document).ready( function(){
+	jQuery('iframe').css('max-width','100%');
+});
+</script>
+{% endblock %}
+
 {% block content %}
 Beklager, en feil har oppstått
 {% endblock %}

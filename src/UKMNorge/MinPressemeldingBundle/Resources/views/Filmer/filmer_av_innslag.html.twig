@@ -1,6 +1,10 @@
 <h4 style="margin-top: 0px;">Filmer fra UKM-TV</h4>
-{% for tv in innslag.getFilmer() %}
+<p>
+	<a href="{{ url('min_pr_ukmtv', {'avis': avis.getId(), 'b_id': innslag.getId()} ) }}">Klikk her for info om kreditering og embedding</a>
+</p>
 
+{% for tv in innslag.getFilmer() %}
+	{{ tv.embedcode('500px')|raw }}
 {% else %}
 Vi har ingen filmer av {{ innslag.getNavn() }}
 {% endfor %}

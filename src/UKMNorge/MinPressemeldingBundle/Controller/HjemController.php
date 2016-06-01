@@ -38,6 +38,7 @@ class HjemController extends Controller
 	    $pameldte = $TWIG['festivalen']->innslag();
 	    foreach( $pameldte as $i ) {
 		    $innslag = new innslag( $i['b_id'] );
+		    
 		    if( !in_array( $innslag->get('b_kommune'), $nedslagsfelt ) ) {
 			    continue;
 			}

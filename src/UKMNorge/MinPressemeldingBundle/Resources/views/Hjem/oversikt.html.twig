@@ -13,9 +13,14 @@
 		<a href="mailto:support@ukm.no?subject=MinPressemelding">Feil nedslagsfelt? Send oss en e-post</a>
 	</p>
 	
-	<h2>UKM-festivalen <small>{{ festivalen.get('pl_start')|dato("d.M") }} - {{ festivalen.get('pl_stop')|dato("d.M Y") }}</small></h2>
+	<p>Alt innhold på denne siden kan brukes fritt så lenge det krediteres UKM Media</p>
 	
-	<h3></h3>
+	<h2>UKM-festivalen <small>{{ festivalen.get('pl_start')|dato("d.M") }} - {{ festivalen.get('pl_stop')|dato("d.M Y") }}</small></h2>
+	<div class="alert alert-info">
+		Informasjon om deltakerne <b>oppdateres fortløpende</b> gjennom arrangementet, 
+		og det vil bli tilgjengeliggjort bilder og filmer av alle innslag kort tid etter deres opptredener
+	</div>
+
 	<ol class="list-unstyled">
 		{% for innslag in mine_innslag %}
 			<li class="well card">
