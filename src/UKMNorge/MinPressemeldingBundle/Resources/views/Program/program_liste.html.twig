@@ -1,0 +1,16 @@
+<h3>Program</h3>
+{% if innslag.getProgram( festivalen ).getAll()|length > 0 %}
+	<p>{{ innslag.getNavn() }} er satt opp i følgende program-hendelser</p>
+{% endif %}
+
+<ol class="list-unstyled">
+{% for forestilling in innslag.getProgram( festivalen ).getAll() %}
+	<li>
+		{{ forestilling.getNummer( innslag ) }} i 
+		<a href="{{ forestilling.getLink() }}#innslag_{{ innslag.getId() }}" target="_blank">{{ forestilling.getNavn() }}</a>
+		(forestillingen starter {{ forestilling.getStart()|date('d.M H:i') }})
+	</li>
+{% else %}
+	<li>{{ innslag.getNavn() }} er ikke satt opp i programmet</li>
+{% endfor %}
+</ol>
