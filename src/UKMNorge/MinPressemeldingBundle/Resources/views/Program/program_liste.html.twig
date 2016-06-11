@@ -6,7 +6,7 @@
 <ol class="list-unstyled">
 {% for forestilling in innslag.getProgram( festivalen ).getAll() %}
 	<li>
-		{{ forestilling.getNummer( innslag ) }} i 
+		Nr. {{ forestilling.getNummer( innslag ) }} i 
 		<a href="{{ forestilling.getLink() }}#innslag_{{ innslag.getId() }}" target="_blank">{{ forestilling.getNavn() }}</a>
 		(forestillingen starter {{ forestilling.getStart()|date('d.M H:i') }})
 	</li>
