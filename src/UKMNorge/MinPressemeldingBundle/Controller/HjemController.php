@@ -48,9 +48,12 @@ class HjemController extends Controller
 		    if( !in_array( $innslag->getKommune()->getId(), $nedslagsfelt ) ) {
 			    continue;
 			}
-			
 			$TWIG['mine_innslag'][] = $innslag;
 		}
+		
+		$wpServ = $this->get('min_pr.wordpress_option');
+		$wpServ->setMonstring( $TWIG['monstring']->getId(), $TWIG['monstring']->getPath() );
+		$TWIG['pressemelding'] = $wpServ->getOption('pressemelding');
 		
    		$TWIG['mediegrupper'] = array('land'=>'UKM-festivalen', 'fylke'=>'Fylkesfestival', 'kommune'=>'Lokalmønstring');
 

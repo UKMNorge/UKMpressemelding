@@ -25,6 +25,10 @@ class WordpressOptionService
 			throw new Exception('WordpressOptionService: getOption krever at setMonstring er kjørt først');
 		}
 		wp_option::setMonstring( $this->pl_id, $this->path );
-		return wp_option::getOption( $key );
+		$value = wp_option::getOption( $key );
+		if( is_string( $value ) ) {
+			return utf8_encode( $value );
+		}
+		return $value;
 	}
 }

@@ -1,26 +1,81 @@
 {% extends "MinPRBundle::layout.html.twig" %}
 
 {% block content %}
-	<h1>Presse-innhold for {{ avis.getName() }}</h1>
-	<p>
-		<b>All informasjonen på denne siden er tilknyttet ditt registrerte nedslagsfelt:</b>
+<style>
+.alignright {
+	float:right;
+}
+.alignleft {
+	float:left;
+}
+.aligncenter {
+	float: center;
+}
+.pressemelding img {
+	margin: 5px;
+}
+img {
+	max-width: 100%;
+	height: auto;
+}
+.pressekontakt-data, .pressekontakt-image {
+	float: left;	
+}
+
+@media (min-width: 768px) {
+	.pressekontakt-data, .pressekontakt-image {
+		float: right;
+		text-align:right;
+	}
+}
+</style>
+	<div class="row">
+		<div class="col-xs-12 col-sm-8">
+			<h1>Presse-innhold for {{ avis.getName() }}</h1>
+			<p class="lead">Alt innhold kan brukes fritt så lenge det krediteres UKM Media</p>
+			<div class="clearfix"></div>
+		</div>
+		<div class="col-xs-12 col-sm-4">
+			<h1></h1>
+			<div class="well card">
+				<p>
+					<b>Informasjon på denne siden er tilknyttet ditt registrerte nedslagsfelt:</b>
+					
+					{% for kommune in avis.getNedslagsfelt() %}
+						{{ kommune.getNavn() }}{{ loop.last ? '.' : ', '}}
+					{% else %}
+						Vi har ikke registrert noen kommuner til ditt nedslagsfelt.
+					{% endfor %}
+					<br />
+					<a href="mailto:support@ukm.no?subject=MinPressemelding">Feil nedslagsfelt? Send oss en e-post</a>
+				</p>
+			</div>
+		</div>	
+	</div>
 		
-		{% for kommune in avis.getNedslagsfelt() %}
-			{{ kommune.getNavn() }}{{ loop.last ? '.' : ', '}}
-		{% else %}
-			Vi har ikke registrert noen kommuner til ditt nedslagsfelt.
-		{% endfor %}
-		<a href="mailto:support@ukm.no?subject=MinPressemelding">Feil nedslagsfelt? Send oss en e-post</a>
-	</p>
-	
-	<p>Alt innhold på denne siden kan brukes fritt så lenge det krediteres UKM Media</p>
-	
+	<div class="clearfix"></div>
+
 	<h2>UKM-festivalen <small>{{ monstring.getStart()|date("d.M") }} - {{ monstring.getStop()|date("d.M Y") }}</small></h2>
 	<div class="col-xs-12">
-		<div class="alert alert-info">
-			Informasjon om deltakerne <b>oppdateres fortløpende</b> gjennom arrangementet, 
-			og det vil bli tilgjengeliggjort bilder og filmer av alle innslag kort tid etter deres opptredener
+		<div class="col-xs-12 col-sm-6 col-md-6">
+			<div class="row alert alert-info">
+				Informasjon <b>oppdateres fortløpende</b> gjennom arrangementet.
+				<br />
+				Bilder og filmer av alle deltakere tilgjengeliggjøres kort tid etter deres opptredener
+			</div>
 		</div>
+		<div class="hidden-xs col-sm-1 col-md-1"></div>
+		<div class="pressekontakt col-xs-12 col-sm-5 col-md-5">
+			{% embed "MinPRBundle::pressekontakt.html.twig" %}{% endembed %}
+		</div>
+		<div class="clearfix"></div>
+		
+		{% if pressemelding is not empty %}
+			<div class="pressemelding">
+				{{ pressemelding|raw }}
+			</div>
+			<div class="clearfix"></div>
+		{% endif %}
 		
 		<h3>Direktesending (livestream)</h3>
 		<p>
