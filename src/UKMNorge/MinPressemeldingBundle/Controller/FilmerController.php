@@ -17,11 +17,13 @@ use wp_author;
 
 class FilmerController extends Controller
 {
-	public function bygginnAction($avis, $b_id)
+	public function bygginnAction($avis, $pl_id, $b_id)
 	{
+		require_once('UKM/monstring.class.php');
 		require_once('UKM/avis.class.php');
 		require_once('UKM/innslag.class.php');
 		
+		$TWIG['monstring'] = new monstring_v2( $pl_id );
 		$TWIG['mediegrupper'] = array('land'=>'UKM-festivalen', 'fylke'=>'Fylkesfestival', 'kommune'=>'Lokalmønstring');
 		$TWIG['avis'] = new avis( (int) $avis );
 		$TWIG['innslag'] = new innslag_v2( $b_id );

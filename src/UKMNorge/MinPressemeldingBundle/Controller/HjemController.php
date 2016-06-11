@@ -36,14 +36,14 @@ class HjemController extends Controller
 	   	
 	    $festivalen = new \landsmonstring( $season );
 	    $festivalpl = $festivalen->monstring_get();
-	    $TWIG['festivalen'] = new monstring_v2( $festivalpl->get('pl_id') );
+	    $TWIG['monstring'] = new monstring_v2( $festivalpl->get('pl_id') );
 	    
 	    $nedslagsfelt = $TWIG['avis']->getNedslagsfeltAsCSV();
 	    if( UKM_HOSTNAME == 'ukm.dev' ) {
 		    $nedslagsfelt[] = 2100;
 		    $nedslagsfelt[] = 2101;
 	    }
-	    $pameldte = $TWIG['festivalen']->getInnslag()->getAll();
+	    $pameldte = $TWIG['monstring']->getInnslag()->getAll();
 	    foreach( $pameldte as $innslag ) {
 		    if( !in_array( $innslag->getKommune()->getId(), $nedslagsfelt ) ) {
 			    continue;

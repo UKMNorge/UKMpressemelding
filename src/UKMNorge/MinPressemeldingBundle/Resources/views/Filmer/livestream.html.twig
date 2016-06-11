@@ -1,7 +1,7 @@
 {% extends "MinPRBundle::layout.html.twig" %}
 
 {% block content %}
-	<h1>Direktesending (livestream)</h1>
+	<h1>Direktesending av {{ monstring.getNavn() }}</h1>
 
 	<div class="col-xs-12">	
 		{% if embed_code is not empty %}
@@ -13,17 +13,26 @@
 			</ul>
 			
 			<pre>{{ embed_code }}</pre>
-		{% else %}
-			<div class="alert alert-danger">Direktesending er dessverre ikke tilgjengelig for innebygging på {{ monstring.getNavn() }}</div>
-		{% endif %}
-		
+			
+			
+			<p>
+				<em>
+					Det er også mulig å bygge inn videoklipp fra UKM-TV, hvor Tono og NCB-avgift er betalt av UKM Norge. 
+					Disse finner du i oversikten for <a href="{{ url('min_pr_mypage', {'id': avis.getId() }) }}">ditt nedslagsfelt</a>
+				</em>
+			</p>
+
 		{% if live_link is not empty %}
 			<p>
 				Direktesending kan ses på denne lenken
 				<a href="{{ live_link }}" target="_blank">{{ live_link }}</a> som det kan lenkes til fritt.
 			</p>
 		{% endif %}
-		
+
+		{% else %}
+			<div class="alert alert-danger">Direktesending er dessverre ikke tilgjengelig for innebygging på {{ monstring.getNavn() }}</div>
+		{% endif %}
+				
 		<div class="clearfix"></div>
 		<p></p>
 		<p>

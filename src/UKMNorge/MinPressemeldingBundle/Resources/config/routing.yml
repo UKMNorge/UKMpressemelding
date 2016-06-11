@@ -12,7 +12,7 @@ min_pr_bilder:
     defaults: { _controller: MinPRBundle:Bilder:lastned }
 
 min_pr_ukmtv:
-    path:    /{avis}/ukmtv/{b_id}/
+    path:    /{avis}/ukmtv/pl{pl_id}/b{b_id}/
     defaults: { _controller: MinPRBundle:Filmer:bygginn }
 min_pr_live:
     path: /{avis}/livestream/{pl_id}/

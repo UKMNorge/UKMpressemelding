@@ -1,10 +1,10 @@
 <h3>Program</h3>
-{% if innslag.getProgram( festivalen ).getAll()|length > 0 %}
+{% if innslag.getProgram( monstring ).getAll()|length > 0 %}
 	<p>{{ innslag.getNavn() }} er satt opp i følgende program-hendelser</p>
 {% endif %}
 
 <ol class="list-unstyled">
-{% for forestilling in innslag.getProgram( festivalen ).getAll() %}
+{% for forestilling in innslag.getProgram( monstring ).getAll() %}
 	<li>
 		Nr. {{ forestilling.getNummer( innslag ) }} i 
 		<a href="{{ forestilling.getLink() }}#innslag_{{ innslag.getId() }}" target="_blank">{{ forestilling.getNavn() }}</a>
