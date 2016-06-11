@@ -72,7 +72,7 @@ img {
 		
 		{% if pressemelding is not empty %}
 			<div class="pressemelding">
-				{{ pressemelding|nl2br|raw }}
+				{{ pressemelding|raw|nl2br }}
 			</div>
 			<div class="clearfix"></div>
 		{% endif %}
