@@ -15,6 +15,8 @@ use innslag_collection as innslag_collection;
 use program as program;
 use forestilling_v2 as forestilling_v2;
 use forestillinger as forestillinger;
+use artikler;
+use artikkel;
 
 class HjemController extends Controller
 {

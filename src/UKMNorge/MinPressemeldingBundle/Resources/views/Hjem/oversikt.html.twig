@@ -136,9 +136,14 @@ img {
 					{% endif %}
 					<div class="clearfix"></div>
 					
-					<div class="col-xs-12">
+					<div class="col-xs-12 col-md-6">
 						{% embed "MinPRBundle:Program:program_liste.html.twig" with {'innslag': innslag } %}{% endembed %}
 					</div>
+
+					<div class="col-xs-12 col-md-6">
+						{% embed "MinPRBundle:Artikler:artikkel_liste.html.twig" with {'innslag': innslag } %}{% endembed %}
+					</div>
+		
 	
 					<div class="clearfix"></div>
 				</li>

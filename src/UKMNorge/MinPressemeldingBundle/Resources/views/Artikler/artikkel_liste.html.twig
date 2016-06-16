@@ -1,0 +1,7 @@
+{% if innslag.getArtikler().getAntall() > 0 %}
+	<h2>Artikler</h2>
+	{% for artikkel in innslag.getArtikler().getAll() %}
+		<a href="{{ artikkel.getLink() }}" target="_blank">{{ artikkel.getTittel() }}</a>
+	{% endfor %}
+	
+{% endif %}
