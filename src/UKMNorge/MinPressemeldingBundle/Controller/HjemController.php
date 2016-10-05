@@ -32,33 +32,61 @@ class HjemController extends Controller
 	    $TWIG = array();
 
 	    $TWIG['avis'] = new avis( $id );
-	    
-	    
-	   	$season = UKM_HOSTNAME == 'ukm.dev' ? 2014 : date('Y');
-	   	
-	    $festivalen = new \landsmonstring( $season );
-	    $festivalpl = $festivalen->monstring_get();
-	    $TWIG['monstring'] = new monstring_v2( $festivalpl->get('pl_id') );
-	    
 	    $nedslagsfelt = $TWIG['avis']->getNedslagsfeltAsCSV();
 	    if( UKM_HOSTNAME == 'ukm.dev' ) {
 		    $nedslagsfelt[] = 2100;
 		    $nedslagsfelt[] = 2101;
 	    }
-	    $pameldte = $TWIG['monstring']->getInnslag()->getAll();
+	    
+	   	$season = UKM_HOSTNAME == 'ukm.dev' ? 2014 : date('Y');
+	   	
+
+	   	/* INFO OM FYLKET */
+   		$fylke = $TWIG['avis']->getFylke();
+   		$fylkepl = new \fylke_monstring_v2( $fylke->getId(), $season );
+   		$TWIG['fylke']['monstring'] = $fylkepl->monstring_get();
+   		
+	    $pameldte = $TWIG['fylke']['monstring']->getInnslag()->getAll();
 	    foreach( $pameldte as $innslag ) {
 		    if( !in_array( $innslag->getKommune()->getId(), $nedslagsfelt ) ) {
 			    continue;
 			}
-			$TWIG['mine_innslag'][] = $innslag;
+			$TWIG['fylke']['mine_innslag'][] = $innslag;
 		}
+   				
+   		$wpServ = $this->get('min_pr.wordpress_option');
+		$wpServ->setMonstring( $TWIG['fylke']['monstring']->getId(), $TWIG['fylke']['monstring']->getPath() );
+		$TWIG['fylke']['pressemelding'] = $wpServ->getOption('pressemelding');
 		
-		$wpServ = $this->get('min_pr.wordpress_option');
-		$wpServ->setMonstring( $TWIG['monstring']->getId(), $TWIG['monstring']->getPath() );
-		$TWIG['pressemelding'] = $wpServ->getOption('pressemelding');
-		
-   		$TWIG['mediegrupper'] = array('land'=>'UKM-festivalen', 'fylke'=>'Fylkesfestival', 'kommune'=>'Lokalmønstring');
+   		$TWIG['fylke']['mediegrupper'] = array('fylke'=>'Fylkesfestival', 'kommune'=>'Lokalmønstring');
 
-        return $this->render('MinPRBundle:Hjem:oversikt.html.twig', $TWIG);
+
+		if( $TWIG['fylke']['monstring']->erFerdig() ) {
+
+			$TWIG['vis_festival'] = true;
+
+			$festivalen = new \landsmonstring( $season );
+			$festivalpl = $festivalen->monstring_get();
+			$TWIG['land']['monstring'] = new monstring_v2( $festivalpl->get('pl_id') );
+			
+			$pameldte = $TWIG['land']['monstring']->getInnslag()->getAll();
+			foreach( $pameldte as $innslag ) {
+			    if( !in_array( $innslag->getKommune()->getId(), $nedslagsfelt ) ) {
+				    continue;
+				}
+				$TWIG['land']['mine_innslag'][] = $innslag;
+			}
+			
+			$wpServ = $this->get('min_pr.wordpress_option');
+			$wpServ->setMonstring( $TWIG['land']['monstring']->getId(), $TWIG['land']['monstring']->getPath() );
+			$TWIG['land']['pressemelding'] = $wpServ->getOption('pressemelding');
+			
+			$TWIG['land']['mediegrupper'] = array('land'=>'UKM-festivalen', 'fylke'=>'Fylkesfestival', 'kommune'=>'Lokalmønstring');
+		} else {
+			$TWIG['vis_festival'] = false;
+		}
+
+		return $this->render('MinPRBundle:Hjem:oversikt.html.twig', $TWIG);
+	
     }
 }
