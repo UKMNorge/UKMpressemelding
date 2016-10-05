@@ -5,11 +5,13 @@
 	<div class="clearfix"></div>
 {% endif %}
 
-<h3>Direktesending (livestream)</h3>
-<p>
-	Vi sender direkte fra {{ monstring.monstring.getNavn() }}. Dette kan bygges inn på din nettside. 
-	<a href="{{ url('min_pr_live', {'avis': avis.getId(), 'pl_id': monstring.monstring.getId() }) }}">Les mer her</a>
-</p>
+{% if not monstring.monstring.erFerdig() %}
+	<h3>Direktesending (livestream)</h3>
+	<p>
+		Vi sender direkte fra {{ monstring.monstring.getNavn() }}. Dette kan bygges inn på din nettside. 
+		<a href="{{ url('min_pr_live', {'avis': avis.getId(), 'pl_id': monstring.monstring.getId() }) }}">Les mer her</a>
+	</p>
+{% endif %}
 
 <h2>Deltakere fra ditt nedslagsfelt</h2>
 <ol class="list-unstyled">
@@ -18,7 +20,7 @@
 			<div class="pull-right" style="opacity: 0.65">
 				{{ innslag.getKommune().getNavn() }}
 			</div>
-			<h3 style="margin-top: 2px;margin-left:4px;">
+			<h4 style="margin-top: 2px;margin-left:4px;">
 				{{ innslag.getNavn() }} 
 				<small>
 					{{ innslag.getType().getNavn() }}
@@ -28,7 +30,7 @@
 					{{ innslag.getPersoner().getSingle().getAlder() }}
 					{% endif %}
 				</small>
-			</h3>
+			</h4>
 			<div class="clearfix"></div>
 			<div class="col-xs-12">
 				{{ innslag.getBeskrivelse() }}

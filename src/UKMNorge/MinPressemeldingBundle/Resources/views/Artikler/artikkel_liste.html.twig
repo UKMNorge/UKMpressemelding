@@ -1,5 +1,5 @@
 {% if innslag.getArtikler().getAntall() > 0 %}
-	<h2>Artikler</h2>
+	<h4>Artikler</h4>
 	{% for artikkel in innslag.getArtikler().getAll() %}
 		<a href="{{ artikkel.getLink() }}" target="_blank">{{ artikkel.getTittel() }}</a>
 	{% endfor %}
