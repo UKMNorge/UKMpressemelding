@@ -1,0 +1,83 @@
+{% if monstring.pressemelding is not empty %}
+	<div class="pressemelding">
+		{{ monstring.pressemelding|raw|nl2br }}
+	</div>
+	<div class="clearfix"></div>
+{% endif %}
+
+{% if not monstring.monstring.erFerdig() %}
+	<h3>Direktesending (livestream)</h3>
+	<p>
+		Vi sender direkte fra {{ monstring.monstring.getNavn() }}. Dette kan bygges inn på din nettside. 
+		<a href="{{ url('min_pr_live', {'avis': avis.getId(), 'pl_id': monstring.monstring.getId() }) }}">Les mer her</a>
+	</p>
+{% endif %}
+
+<h2>Deltakere fra ditt nedslagsfelt</h2>
+<ol class="list-unstyled">
+	{% for innslag in monstring.mine_innslag %}
+		<li class="well card">
+			<div class="pull-right" style="opacity: 0.65">
+				{{ innslag.getKommune().getNavn() }}
+			</div>
+			<h4 style="margin-top: 2px;margin-left:4px;">
+				{{ innslag.getNavn() }} 
+				<small>
+					{{ innslag.getType().getNavn() }}
+					{% if not innslag.getType().harTitler() %}
+					{{ innslag.getPersoner().getSingle().getInstrument() }}
+					- 
+					{{ innslag.getPersoner().getSingle().getAlder() }}
+					{% endif %}
+				</small>
+			</h4>
+			<div class="clearfix"></div>
+			<div class="col-xs-12">
+				{{ innslag.getBeskrivelse() }}
+			</div>
+			{% if innslag.getType().harTitler() %}
+				<div class="clearfix"></div>
+				<div class="col-xs-12">
+					<p></p>
+					<p>
+						{% for person in innslag.getPersoner().getAll() %}
+							<b>{{ person.getNavn() }}</b>
+							({{ person.getInstrument() }} - {{ person.getAlder() }}){{ loop.last ? '' : ', '}}
+						{% endfor %}
+					</p>
+				</div>
+			{% endif %}
+			
+			<hr />
+			
+			<div class="clearfix"></div>
+			{% if innslag.getType().harFilmer() %}
+				<div class="col-xs-12 col-md-6">
+					{% embed "MinPRBundle:Bilder:bilder_av_innslag.html.twig" with {'innslag': innslag} %}{% endembed %}
+				</div>
+	
+				<div class="col-xs-12 col-md-6">
+					{% embed "MinPRBundle:Filmer:filmer_av_innslag.html.twig" with {'innslag': innslag} %}{% endembed %}
+				</div>
+			{% else %}
+				<div class="col-xs-12 col-md-6">
+					{% embed "MinPRBundle:Bilder:bilder_av_innslag.html.twig" with {'innslag': innslag} %}{% endembed %}
+				</div>				
+			{% endif %}
+			<div class="clearfix"></div>
+			
+			<div class="col-xs-12 col-md-6">
+				{% embed "MinPRBundle:Program:program_liste.html.twig" with {'innslag': innslag } %}{% endembed %}
+			</div>
+
+			<div class="col-xs-12 col-md-6">
+				{% embed "MinPRBundle:Artikler:artikkel_liste.html.twig" with {'innslag': innslag } %}{% endembed %}
+			</div>
+
+
+			<div class="clearfix"></div>
+		</li>
+	{% else %}
+		<li>Ingen deltakere fra ditt registrerte nedslagsfelt deltar på {{ monstring.monstring.getNavn() }} i år</li>
+	{% endfor %}
+</ol>

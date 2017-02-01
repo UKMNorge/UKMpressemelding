@@ -1,6 +1,6 @@
 <h4 style="margin-top: 0px;">Filmer fra UKM-TV</h4>
 <p>
-	<a href="{{ url('min_pr_ukmtv', {'avis': avis.getId(), 'b_id': innslag.getId(), 'pl_id': monstring.getId() } ) }}">Klikk her for info om kreditering og embedding</a>
+	<a href="{{ url('min_pr_ukmtv', {'avis': avis.getId(), 'b_id': innslag.getId(), 'pl_id': monstring.monstring.getId() } ) }}">Klikk her for info om kreditering og embedding</a>
 </p>
 
 {% for tv in innslag.getFilmer() %}
