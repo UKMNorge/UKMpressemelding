@@ -1,58 +1,74 @@
 {% extends "MinPRBundle::layout.html.twig" %}
 
 {% block content %}
-<h1>Embedding av UKM-TV</h1>
-<div class="col-xs-12">
-	<p class="lead">Hvis du ønsker det kan du embedde (bygge inn) et klipp fra UKM-TV på din nettside</p>
-	
-	<b>Du kan:</b>
-	<ul>
-		<li>kun embedde klipp fra UKM-TV sammen med omtale av ett eller flere UKM-innslag eller arrangementet i sin helhet.</li>
-		<li>bruke sitatrett for å ta ut deler av våre klipp forutsatt at du betaler egen TONO og NCB-avgift. Vi kan dessverre ikke hjelpe med nedlasting</li>
-		
-	</ul>
-	<b>Du kan ikke:</b>
-	<ul>
-		<li>
-			embedde UKM-TV på en forside av ditt nettsted. 
-			<a href="{{ url('min_pr_live', {'avis': avis.getId(), 'pl_id': monstring.getId() }) }}">Til slike formål må du embedde vår livestream</a>
-		</li>
-		<li>laste ned klipp fra UKM-TV for publisering andre steder</li>
-	</ul>
-	
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<h1>Embedding av UKM-TV</h1>
+			
+			<p class="lead">Hvis du ønsker det kan du embedde (bygge inn) et klipp fra UKM-TV på din nettside</p>
+			
+			<b>Du kan:</b>
+			<ul>
+				<li>kun embedde klipp fra UKM-TV sammen med omtale av ett eller flere UKM-innslag eller arrangementet i sin helhet.</li>
+				<li>bruke sitatrett for å ta ut deler av våre klipp forutsatt at du betaler egen TONO og NCB-avgift. Vi kan dessverre ikke hjelpe med nedlasting</li>
+				
+			</ul>
+			<b>Du kan ikke:</b>
+			<ul>
+				<li>
+					embedde UKM-TV på en forside av ditt nettsted. 
+					<a href="{{ url('min_pr_live', {'avis': avis.getId(), 'pl_id': monstring.getId() }) }}">Til slike formål må du embedde vår livestream</a>
+				</li>
+				<li>laste ned klipp fra UKM-TV for publisering andre steder</li>
+			</ul>
+			
+			<p>
+				UKM-TV tilbys av <a href="http://om.ukm.no/kontakt/administrasjonen/">UKM Norge</a>.
+				Musikken er gjengitt med tillatelse fra <a href="http://www.ncb.dk" target="_blank">NCB</a>
+				og <a href="http://www.tono.no" target="_blank">TONO</a>.
+			</p>
+		</div>
+		<div class="col-12">
+			<h2 class="mb-2">
+				Filmer av {{ innslag.getNavn() }}
+			</h2>
+			
+			{% for tv in innslag.getFilmer() %}
+				<div class="row">
+					<div class="col-12 col-sm-6 pull-left">
+						{{ tv.embedcode('500px')|raw }}
+					</div>
+					<div class="col-12 col-sm-6 pull-right">
+						<h3>{{ tv.set }}</h3>
+						<p class="bold mb-0 mt-3">
+							Direktelenke
+						</p>
+						<p class="mt-0">
+							<a href="{{ tv.full_url }}" target="_blank">{{ tv.full_url }}</a>
+						</p>
+						
+						<p class="bold mb-0 mt-3">
+							Embed-kode
+						</p>
+						<p class="mt-0">
+							Kopier følgende kode inn i ditt publiseringssystem
+						</p>
+						<p class="mt-0">
+							<code>{{ tv.embedcode('920px') }}</code>
+						</p>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			{% else %}
+				Vi har ingen filmer av {{ innslag.getNavn() }}
+			{% endfor %}
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+	<p></p>
 	<p>
-		UKM-TV tilbys av <a href="http://om.ukm.no/kontakt/administrasjonen/">UKM Norge</a>.
-		Musikken er gjengitt med tillatelse fra <a href="http://www.ncb.dk" target="_blank">NCB</a>
-		og <a href="http://www.tono.no" target="_blank">TONO</a>.
+		<a href="{{ url('min_pr_mypage', {'id': avis.getId() }) }}">Tilbake til ditt nedslagsfelt</a>
 	</p>
-</div>	
-<h2>Filmer av {{ innslag.getNavn() }}</h2>
-
-
-{% for tv in innslag.getFilmer() %}
-<div class="ukmtv">
-	<div class="col-xs-12 col-sm-6 pull-left">
-		{{ tv.embedcode('500px')|raw }}
-	</div>
-	<div class="col-xs-12 col-sm-6 pull-right">
-		<h3>{{ tv.set }}</h3>
-		<h4>Direktelenke</h4>
-		<a href="{{ tv.full_url }}" target="_blank">{{ tv.full_url }}</a>
-		<h4>Embedkode</h4>
-		<p>Kopier følgende kode inn i ditt publiseringssystem</p>
-		<pre>{{ tv.embedcode('920px') }}</pre>
-	</div>
-</div>
-<div class="clearfix"></div>
-{% else %}
-Vi har ingen filmer av {{ innslag.getNavn() }}
-{% endfor %}
-
-
-
-<div class="clearfix"></div>
-<p></p>
-<p>
-	<a href="{{ url('min_pr_mypage', {'id': avis.getId() }) }}">Tilbake til ditt nedslagsfelt</a>
-</p>
 {% endblock %}

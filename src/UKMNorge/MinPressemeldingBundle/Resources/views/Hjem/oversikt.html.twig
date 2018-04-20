@@ -1,46 +1,45 @@
 {% extends "MinPRBundle::layout.html.twig" %}
 
-{% block content %}
-<style>
-.alignright {
-	float:right;
-}
-.alignleft {
-	float:left;
-}
-.aligncenter {
-	float: center;
-}
-.pressemelding img {
-	margin: 5px;
-}
-img {
-	max-width: 100%;
-	height: auto;
-}
-.pressekontakt-data, .pressekontakt-image {
-	float: left;	
-}
+{% block css %}
+	<style>
+		.alignright {
+			float:right;
+		}
+		.alignleft {
+			float:left;
+		}
+		.aligncenter {
+			float: center;
+		}
+		img {
+			max-width: 100%;
+			height: auto;
+		}
+		.pressekontakt-data, .pressekontakt-image {
+			float: left;	
+		}
+		
+		@media (min-width: 768px) {
+			.pressekontakt-data, .pressekontakt-image {
+				float: right;
+				text-align:right;
+			}
+		}
+	</style>
+{% endblock %}
 
-@media (min-width: 768px) {
-	.pressekontakt-data, .pressekontakt-image {
-		float: right;
-		text-align:right;
-	}
-}
-</style>
-{% if vis_festival %}
-	<div class="row">
-		<div class="col-xs-12 col-sm-8">
-			<h1>Presse-innhold for {{ avis.getName() }}</h1>
-			<p class="lead">Alt innhold kan brukes fritt så lenge det krediteres UKM Media</p>
-			<div class="clearfix"></div>
-		</div>
-		<div class="col-xs-12 col-sm-4">
-			<h1></h1>
-			<div class="well card">
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-sm-8">
+				<h1>Presse-innhold for {{ avis.getName() }}</h1>
+				<p class="lead">Alt innhold kan brukes fritt så lenge det krediteres UKM Media</p>
+				<div class="clearfix"></div>
+			</div>
+			<div class="col-12 col-sm-4">
+				<h1></h1>
 				<p>
-					<b>Informasjon på denne siden er tilknyttet ditt registrerte nedslagsfelt:</b>
+					<b>Informasjon fra ditt registrerte nedslagsfelt:</b>
 					
 					{% for kommune in avis.getNedslagsfelt() %}
 						{{ kommune.getNavn() }}{{ loop.last ? '.' : ', '}}
@@ -50,67 +49,73 @@ img {
 					<br />
 					<a href="mailto:support@ukm.no?subject=MinPressemelding">Feil nedslagsfelt? Send oss en e-post</a>
 				</p>
-			</div>
-		</div>	
+			</div>	
+		</div>
+		<div class="clearfix"></div>
 	</div>
-		
-	<div class="clearfix"></div>
 	
-{# ###################### FESTIVALEN ####################### #}
-</div>
-	<div class="container-fluid">
-		<div class="alert alert-info">
+	{% if vis_festival %}
+		{# ###################### FESTIVALEN ####################### #}
+		<div class="banner mt-5 mb-4" style="background: #d75d0c; color: #fff;">
 			<div class="container">
 				<div class="row">
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<h2>UKM-festivalen <small>{{ land.monstring.getStart()|date("d.M") }} - {{ land.monstring.getStop()|date("d.M Y") }}</small></h2>
+					<div class="col-12 col-sm-8">
+						<h1 class="mt-2 mb-0">
+							UKM-festivalen
+						</h1>
+						<p class="lead">
+							{{ land.monstring.getStart()|date("d.M") }} - {{ land.monstring.getStop()|date("d.M Y") }}
+						</p>
 						<p>
-							Informasjon <b>oppdateres fortløpende</b> gjennom arrangementet.
+							Informasjon oppdateres fortløpende gjennom arrangementet.
 							<br />
-							Bilder og filmer av alle deltakere tilgjengeliggjøres kort tid etter deres opptredener
+							Bilder og filmer av alle deltakere tilgjengeliggjøres kort tid etter deres opptredener.
 						</p>
 					</div>
-					<div class="hidden-xs col-sm-2"></div>
-					<div class="pressekontakt col-xs-12 col-sm-4">
-						<div class="well card">
+					<div class="col-12 col-sm-4">
+						<div class="well card p-2 my-2" style="color: rgba(0,0,0, 0.85);">
 							{% embed "MinPRBundle::pressekontakt.html.twig" %}{% endembed %}
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-<div class="container">
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="clearfix"></div>
-			{% embed "MinPRBundle:Hjem:monstring.html.twig" with {'monstring': land, 'mediegrupper': land.mediegrupper } %}{% endembed %}
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="clearfix"></div>
+					{% embed "MinPRBundle:Hjem:monstring.html.twig" with {'monstring': land, 'mediegrupper': land.mediegrupper } %}{% endembed %}
+				</div>
+			</div>
 		</div>
-	</div>
-{% endif %}
-{# ###################### FYLKESMØNSTRING ####################### #}	
-</div>
-	<div class="container-fluid">
-		<div class="alert alert-warning">
-			<div class="container">
-				<div class="row">
-					<div class="col-xs-12 col-sm-8">
-						<h2>{{ fylke.monstring.getNavn() }} <small>{{ fylke.monstring.getStart()|date("d.M") }} - {{ fylke.monstring.getStop()|date("d.M Y") }}</small></h2>
-						<p>
-							Informasjon <b>oppdateres fortløpende</b> gjennom arrangementet.
-							<br />
-							Bilder og filmer av alle deltakere tilgjengeliggjøres som oftest kort tid etter deres opptredener
-						</p>
-					</div>
+	{% endif %}
+
+	{# ###################### FYLKESMØNSTRING ####################### #}	
+		<div class="banner mt-5 mb-4" style="background: #d75d0c; color: #fff;">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-sm-8">
+					<h1 class="mt-2 mb-0">
+						{{ fylke.monstring.getNavn() }}
+					</h1>
+					<p class="lead">
+						{{ fylke.monstring.getStart()|date("d.M") }} - {{ fylke.monstring.getStop()|date("d.M Y") }}
+					</p>
+					<p>
+						Informasjon oppdateres fortløpende gjennom arrangementet.
+						<br />
+						Bilder og filmer av alle deltakere tilgjengeliggjøres kort tid etter deres opptredener.
+					</p>
 				</div>
 			</div>
 		</div>
 	</div>
-<div class="container">
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="clearfix"></div>
-			{% embed "MinPRBundle:Hjem:monstring.html.twig" with {'monstring': fylke, 'mediegrupper': fylke.mediegrupper } %}{% endembed %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="clearfix"></div>
+				{% embed "MinPRBundle:Hjem:monstring.html.twig" with {'monstring': fylke, 'mediegrupper': fylke.mediegrupper } %}{% endembed %}
+			</div>
 		</div>
 	</div>
 {% endblock %}

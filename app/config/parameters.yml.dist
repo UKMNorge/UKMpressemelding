@@ -20,3 +20,15 @@ parameters:
 
     #UKM-config
     UKM_HOSTNAME: ukm.dev
+    
+    UKMresponsive.theme: ''
+    UKMresponsive.section:
+        title: UKM Pressemelding
+        url: //pressemelding.ukm.no
+
+    SEOdefaultsApp:
+        title: UKM Pressemelding
+        canonical: //pressemelding.ukm.no
+        description: Pressemeldinger
+        siteName: UKM Pressemelding
+        section: organisasjon

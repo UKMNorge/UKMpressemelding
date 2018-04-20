@@ -18,7 +18,8 @@ class DefaultController extends Controller
 		$fylker = fylker::getAll();
 		foreach( $fylker as $fylke ) {
 		    $aviser = new aviser();
-		    $TWIG['aviser'][ $fylke->getNavn() ] = $aviser->getAllByFylke( $fylke->getId() );
+		    $TWIG['aviser'][ $fylke->getId() ] = $aviser->getAllByFylke( $fylke->getId() );
+		    $TWIG['fylker'][ $fylke->getId() ] = $fylke;
 		}
 			    
         return $this->render('MinPRBundle:Default:index.html.twig', $TWIG);

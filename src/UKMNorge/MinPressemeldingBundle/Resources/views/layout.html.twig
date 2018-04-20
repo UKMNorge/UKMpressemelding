@@ -1,5 +1,5 @@
-{% extends "UKMDesignBundle::layout.html.twig" %}
-{% block title %}UKM: Min pressemelding{% endblock %}
+{% extends "UKMDesignBundle:Layout:_base.html.twig" %}
+
 {% block css %}
 	{{ parent() }}
 	<style>
@@ -14,13 +14,18 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-jQuery(document).ready( function(){
-	jQuery('iframe').css('max-width','100%');
-});
-</script>
+	<script>
+		jQuery(document).ready( function(){
+			jQuery('iframe').css('max-width','100%');
+		});
+	</script>
 {% endblock %}
 
 {% block content %}
-Beklager, en feil har oppstått
+	<div class="container">
+		<div class="row">
+			{% block pressemelding_content %}
+			{% endblock %}
+		</div>
+	</div>
 {% endblock %}

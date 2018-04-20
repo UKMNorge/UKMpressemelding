@@ -1,6 +1,8 @@
-<h4>Program</h4>
+<p class="bold mt-4 mb-1">
+	Program
+</p>
 {% if innslag.getProgram( monstring.monstring ).getAll()|length > 0 %}
-	<p>{{ innslag.getNavn() }} er satt opp i følgende program-hendelser</p>
+	<p class="mt-0">{{ innslag.getNavn() }} er satt opp i følgende program-hendelser</p>
 {% endif %}
 
 <ol class="list-unstyled">

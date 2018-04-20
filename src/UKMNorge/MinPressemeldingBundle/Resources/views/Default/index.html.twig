@@ -1,12 +1,13 @@
 {% extends "MinPRBundle::layout.html.twig" %}
 
-{% block content %}
+{% block pressemelding_content %}
 	<h1>Din pressemelding</h1>
 	<p class="lead">For å gjøre alt enklere har vi samlet relevant pressestoff for alle aviser på ett sted.</p>
 	
-	{% for fylke, aviser_i_fylket in aviser %}
+	{% for fylke_id, aviser_i_fylket in aviser %}
 		<div class="col-xs-12 col-md-6">
-			<h2>{{ fylke }}	</h2>
+			<a name="{{ fylker[ fylke_id ].getURLsafe() }}"></a>
+			<h2>{{ fylker[ fylke_id ].getNavn() }}</h2>
 			<ol class="list-unstyled">
 			{% for avis in aviser_i_fylket %}
 				<li class="well card">
@@ -15,7 +16,7 @@
 					</a>
 				</li>
 			{% else %}
-				<li>Beklager, vi har ingen registrerte aviser i {{ fylke }}. <a href="//om.ukm.no/kontakt/administrasjonen/">Kontakt oss</a></li>
+				<li>Beklager, vi har ingen registrerte aviser i {{ fylker[ fylke_id ].getNavn() }}. <a href="//om.ukm.no/kontakt/administrasjonen/">Kontakt oss</a></li>
 			{% endfor %}
 			</ol>
 		</div>
