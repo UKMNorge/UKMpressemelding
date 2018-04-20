@@ -1,28 +1,37 @@
 {% extends "MinPRBundle::layout.html.twig" %}
 
-{% block pressemelding_content %}
-	<h1>Din pressemelding</h1>
-	<p class="lead">For å gjøre alt enklere har vi samlet relevant pressestoff for alle aviser på ett sted.</p>
-	
-	{% for fylke_id, aviser_i_fylket in aviser %}
-		<div class="col-xs-12 col-md-6">
-			<a name="{{ fylker[ fylke_id ].getURLsafe() }}"></a>
-			<h2>{{ fylker[ fylke_id ].getNavn() }}</h2>
-			<ol class="list-unstyled">
-			{% for avis in aviser_i_fylket %}
-				<li class="well card">
-					<a href="{{ url( 'min_pr_mypage', {'id': avis.getId()} ) }}">
-						{{ avis.getName() }}
-					</a>
-				</li>
-			{% else %}
-				<li>Beklager, vi har ingen registrerte aviser i {{ fylker[ fylke_id ].getNavn() }}. <a href="//om.ukm.no/kontakt/administrasjonen/">Kontakt oss</a></li>
-			{% endfor %}
-			</ol>
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>Din pressemelding</h1>
+				<p class="lead">For å gjøre alt enklere har vi samlet relevant pressestoff for alle aviser på ett sted.</p>
+			</div>
 		</div>
-		{% if loop.index is divisible by(2) %}
-			<div class="clearfix"></div>
-		{% endif %}
-	{% endfor %}
+		<div class="row">	
+			{% for fylke_id, aviser_i_fylket in aviser %}
+				<div class="col-12 col-md-6">
+					<a name="{{ fylker[ fylke_id ].getURLsafe() }}"></a>
+					<h2>{{ fylker[ fylke_id ].getNavn() }}</h2>
 
+					<ol class="list-unstyled">
+					{% for avis in aviser_i_fylket %}
+						<li class="well card">
+							<a href="{{ url( 'min_pr_mypage', {'id': avis.getId()} ) }}">
+								{{ avis.getName() }}
+							</a>
+						</li>
+					{% else %}
+						<li>Beklager, vi har ingen registrerte aviser i {{ fylker[ fylke_id ].getNavn() }}.
+						<a href="//om.ukm.no/kontakt/administrasjonen/">Kontakt oss</a></li>
+					{% endfor %}
+					</ol>
+				</div>
+
+				{% if loop.index is divisible by(2) %}
+					<div class="clearfix"></div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}
