@@ -36,13 +36,14 @@ class AppKernel extends Kernel
         return __DIR__;
     }
 
-	public function getCacheDir()
+    public function getCacheDir()
     {
-        return sys_get_temp_dir(). '/symfony/minpressemelding/cache/';
+        return '~/cache/symfony/pressemelding/'.$this->environment;
     }
-	public function getLogDir()
+    
+    public function getLogDir()
     {
-        return sys_get_temp_dir(). '/symfony/minpressemelding/log/';
+        return '~/logs/symfony/pressemelding/'.$this->environment;
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
