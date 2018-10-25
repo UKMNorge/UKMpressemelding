@@ -27,7 +27,7 @@ class WordpressOptionService
 		wp_option::setMonstring( $this->pl_id, $this->path );
 		$value = wp_option::getOption( $key );
 		if( is_string( $value ) ) {
-			return utf8_encode( $value );
+			return $value;
 		}
 		return $value;
 	}
