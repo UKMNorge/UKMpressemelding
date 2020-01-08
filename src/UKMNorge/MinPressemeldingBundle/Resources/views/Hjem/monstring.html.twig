@@ -1,15 +1,16 @@
-{% if monstring.pressemelding is not empty %}
+{% if arrangement.getPressemelding() is not empty %}
 	<div class="pressemelding">
-		{{ monstring.pressemelding|raw|nl2br }}
+		{{ arrangement.getPressemelding()|raw|nl2br }}
 	</div>
 	<div class="clearfix"></div>
 {% endif %}
 
-{% if not monstring.monstring.erFerdig() %}
+{% if not arrangement.erFerdig() %}
 	<h2 class="mt-4">Direktesending (livestream)</h2>
 	<p>
-		Vi sender direkte fra {{ monstring.monstring.getNavn() }}. Dette kan bygges inn på din nettside. 
-		<a href="{{ url('min_pr_live', {'avis': avis.getId(), 'pl_id': monstring.monstring.getId() }) }}">Les mer her</a>
+		Vi sender direkte fra
+		{{ arrangement.getNavn() }}. Dette kan bygges inn på din nettside.
+		<a href="{{ url('min_pr_live', {'avis': avis.getId(), 'pl_id': arrangement.getId() }) }}">Les mer her</a>
 	</p>
 {% endif %}
 
@@ -17,20 +18,20 @@
 	Deltakere fra ditt nedslagsfelt
 </h2>
 <ol class="list-group mt-2">
-	{% for innslag in monstring.mine_innslag %}
+	{% for innslag in arrangement.getInnslag().getAll() %} 
 		<li class="list-group-item my-4" {{ loop.index is divisibleby( 2 ) ? 'style="background: #f7f7f9"' }}>
 			<div class="pull-right" style="opacity: 0.65">
 				{{ innslag.getKommune().getNavn() }}
 			</div>
-			
+
 			<h3 class="mt-0">
-				{{ innslag.getNavn() }} 
+				{{ innslag.getNavn() }}
 				<small>
 					{{ innslag.getType().getNavn() }}
 					{% if not innslag.getType().harTitler() %}
-					{{ innslag.getPersoner().getSingle().getInstrument() }}
-					- 
-					{{ innslag.getPersoner().getSingle().getAlder() }}
+						{{ innslag.getPersoner().getSingle().getInstrument() }}
+						-
+						{{ innslag.getPersoner().getSingle().getAlder() }}
 					{% endif %}
 				</small>
 			</h3>
@@ -43,19 +44,21 @@
 				<p>
 					{% for person in innslag.getPersoner().getAll() %}
 						{{ person.getNavn() }}
-						({{ person.getInstrument() }} - {{ person.getAlder() }}){{ loop.last ? '' : ', '}}
+						({{ person.getInstrument() }}
+						-
+						{{ person.getAlder() }}){{ loop.last ? '' : ', '}}
 					{% endfor %}
 				</p>
 			{% endif %}
-			
-			<hr />
-			
+
+			<hr/>
+
 			{% if innslag.getType().harFilmer() %}
 				<div class="row">
 					<div class="col-12 col-md-6">
 						{% embed "MinPRBundle:Bilder:bilder_av_innslag.html.twig" with {'innslag': innslag} %}{% endembed %}
 					</div>
-		
+
 					<div class="col-12 col-md-6">
 						{% embed "MinPRBundle:Filmer:filmer_av_innslag.html.twig" with {'innslag': innslag} %}{% endembed %}
 					</div>
@@ -68,12 +71,12 @@
 				</div>
 			{% endif %}
 			<div class="clearfix"></div>
-			
+
 			<div class="row">
 				<div class="col-12 col-md-6">
 					{% embed "MinPRBundle:Program:program_liste.html.twig" with {'innslag': innslag } %}{% endembed %}
 				</div>
-	
+
 				<div class="col-12 col-md-6">
 					{% embed "MinPRBundle:Artikler:artikkel_liste.html.twig" with {'innslag': innslag } %}{% endembed %}
 				</div>
@@ -81,6 +84,8 @@
 			<div class="clearfix"></div>
 		</li>
 	{% else %}
-		<li class="list-group-item">Ingen deltakere fra ditt registrerte nedslagsfelt deltar på {{ monstring.monstring.getNavn() }} i år</li>
+		<li class="list-group-item">Ingen deltakere fra ditt registrerte nedslagsfelt deltar på
+			{{ arrangement.getNavn() }}
+			i år</li>
 	{% endfor %}
 </ol>

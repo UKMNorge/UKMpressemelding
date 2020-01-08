@@ -3,90 +3,73 @@
 namespace UKMNorge\MinPressemeldingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use fylker as fylker;
-use aviser as aviser;
-use avis as avis;
-use kommune as kommune;
-use SQL as SQL;
-use monstring as monstring;
-use monstring_v2 as monstring_v2;
-use innslag_v2 as innslag_v2;
-use innslag_collection as innslag_collection;
-use program as program;
-use forestilling_v2 as forestilling_v2;
-use forestillinger as forestillinger;
-use artikler;
-use artikkel;
+use UKMNorge\Avis\Avis;
+use UKMNorge\Nettverk\Omrade;
+use UKMNorge\Arrangement\Load as ArrangementLoad;
 
 class HjemController extends Controller
 {
     public function oversiktAction($id)
     {
-	    require_once('UKM/avis.class.php');
-	    require_once('UKM/monstringer.class.php');
-	    require_once('UKM/monstring.class.php');
-	    require_once('UKM/innslag.class.php');
-	    require_once('UKM/forestillinger.collection.php');
-	    require_once('UKM/forestilling.class.php');
-	    
-	    $TWIG = array();
+        require_once('UKM/Autoloader.php');
 
-	    $TWIG['avis'] = new avis( $id );
-	    $nedslagsfelt = $TWIG['avis']->getNedslagsfeltAsCSV();
-	    if( UKM_HOSTNAME == 'ukm.dev' ) {
-		    $nedslagsfelt[] = 2100;
-		    $nedslagsfelt[] = 2101;
-	    }
-	    
-	   	$season = UKM_HOSTNAME == 'ukm.dev' ? 2014 : date('Y');
-	   	
+        $TWIG = array();
 
-	   	/* INFO OM FYLKET */
-   		$fylke = $TWIG['avis']->getFylke();
-   		$fylkepl = new \fylke_monstring_v2( $fylke->getId(), $season );
-   		$TWIG['fylke']['monstring'] = $fylkepl->monstring_get();
-   		
-	    $pameldte = $TWIG['fylke']['monstring']->getInnslag()->getAll();
-	    foreach( $pameldte as $innslag ) {
-		    if( !in_array( $innslag->getKommune()->getId(), $nedslagsfelt ) ) {
-			    continue;
-			}
-			$TWIG['fylke']['mine_innslag'][] = $innslag;
-		}
-   				
-   		$wpServ = $this->get('min_pr.wordpress_option');
-		$wpServ->setMonstring( $TWIG['fylke']['monstring']->getId(), $TWIG['fylke']['monstring']->getPath() );
-		$TWIG['fylke']['pressemelding'] = $wpServ->getOption('pressemelding');
-		
-   		$TWIG['fylke']['mediegrupper'] = array('fylke'=>'Fylkesfestival', 'kommune'=>'Lokalmønstring');
+        $avis = new Avis($id);
+        $nedslagsfelt = $avis->getNedslagsfeltAsCSV();
 
+        $sesong = date('Y');
 
-		if( $TWIG['fylke']['monstring']->erFerdig() ) {
+        /* INFO OM FYLKET */
+        $fylke = $avis->getFylke();
 
-			$TWIG['vis_festival'] = true;
+        $omrade = Omrade::getByFylke($fylke->getId());
 
-			$festivalen = new \landsmonstring( $season );
-			$festivalpl = $festivalen->monstring_get();
-			$TWIG['land']['monstring'] = new monstring_v2( $festivalpl->get('pl_id') );
-			
-			$pameldte = $TWIG['land']['monstring']->getInnslag()->getAll();
-			foreach( $pameldte as $innslag ) {
-			    if( !in_array( $innslag->getKommune()->getId(), $nedslagsfelt ) ) {
-				    continue;
-				}
-				$TWIG['land']['mine_innslag'][] = $innslag;
-			}
-			
-			$wpServ = $this->get('min_pr.wordpress_option');
-			$wpServ->setMonstring( $TWIG['land']['monstring']->getId(), $TWIG['land']['monstring']->getPath() );
-			$TWIG['land']['pressemelding'] = $wpServ->getOption('pressemelding');
-			
-			$TWIG['land']['mediegrupper'] = array('land'=>'UKM-festivalen', 'fylke'=>'Fylkesfestival', 'kommune'=>'Lokalmønstring');
-		} else {
-			$TWIG['vis_festival'] = false;
-		}
+        foreach ($omrade->getArrangementer($sesong)->getAll() as $arrangement) {
+            $i_mitt_nedsalgsfelt = array();
+            foreach ($arrangement->getInnslag()->getAll() as $innslag) {
+                if ($innslag != $nedslagsfelt) {
+                    continue;
+                } else {
+                    $i_mitt_nedsalgsfelt[] = $innslag;
+                }
+            }
+            $arrangement->setAttr('innslag_som_skal_vises', $i_mitt_nedsalgsfelt);
+        }
 
-		return $this->render('MinPRBundle:Hjem:oversikt.html.twig', $TWIG);
-	
+        $arr = ArrangementLoad::byEier($sesong, $fylke);
+
+        $TWIG = [
+            'avis' => $avis,
+            'fylke' => $fylke,
+            'omrade' => $omrade,
+            'sesong' => $sesong,
+            'arrangementer' => $arr
+        ];
+
+        //Marius kommer tilbake å fikser dette her 
+        if (false) {
+            $TWIG['vis_festival'] = true;
+
+            $festivalen = new \landsmonstring($sesong);
+            $festivalpl = $festivalen->monstring_get();
+            $TWIG['land']['monstring'] = new monstring_v2($festivalpl->get('pl_id'));
+
+            $pameldte = $TWIG['land']['monstring']->getInnslag()->getAll();
+            foreach ($pameldte as $innslag) {
+                if (!in_array($innslag->getKommune()->getId(), $nedslagsfelt)) {
+                    continue;
+                }
+                $TWIG['land']['mine_innslag'][] = $innslag;
+            }
+            // Marius fikser getPressemelding();
+            $TWIG['land']['pressemelding'] = $arrangement->getPressemelding();
+
+            $TWIG['land']['mediegrupper'] = array('land' => 'UKM-festivalen', 'fylke' => 'Fylkesfestival', 'kommune' => 'Lokalmønstring');
+        } else {
+            $TWIG['vis_festival'] = false;
+        }
+
+        return $this->render('MinPRBundle:Hjem:oversikt.html.twig', $TWIG);
     }
 }
