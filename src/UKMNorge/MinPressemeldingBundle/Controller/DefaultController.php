@@ -3,20 +3,19 @@
 namespace UKMNorge\MinPressemeldingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use aviser as aviser;
+use UKMNorge\Avis\Aviser;
 use UKMNorge\Geografi\Fylker;
+require_once('UKM/Autoloader.php');
 
 class DefaultController extends Controller
 {
     public function indexAction()
     {
-	   	require_once('UKM/aviser.class.php');
-	   	
-	   	$TWIG = array();
+	   		   	$TWIG = array();
 	    
 		$fylker = Fylker::getAll();
 		foreach( $fylker as $fylke ) {
-		    $aviser = new aviser();
+		    $aviser = new Aviser();
 		    $TWIG['aviser'][ $fylke->getId() ] = $aviser->getAllByFylke( $fylke->getId() );
 		    $TWIG['fylker'][ $fylke->getId() ] = $fylke;
 		}

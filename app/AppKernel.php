@@ -38,10 +38,16 @@ class AppKernel extends Kernel
 
 	public function getCacheDir()
     {
+	if( !isset( $_ENV['HOME'] ) ) {
+            $_ENV['HOME'] = sys_get_temp_dir();
+        }
         return $_ENV['HOME'].'/cache/symfony/ukmpressemelding/'.$this->getEnvironment();
     }
 	public function getLogDir()
     {
+	if( !isset( $_ENV['HOME'] ) ) {
+            $_ENV['HOME'] = sys_get_temp_dir();
+        }
         return $_ENV['HOME'].'/logs/symfony/ukmpressemelding/'.$this->getEnvironment();
     }
 

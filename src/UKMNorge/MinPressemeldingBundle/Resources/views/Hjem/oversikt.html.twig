@@ -3,10 +3,10 @@
 {% block css %}
 	<style>
 		.alignright {
-			float:right;
+			float: right;
 		}
 		.alignleft {
-			float:left;
+			float: left;
 		}
 		.aligncenter {
 			float: center;
@@ -15,14 +15,16 @@
 			max-width: 100%;
 			height: auto;
 		}
-		.pressekontakt-data, .pressekontakt-image {
-			float: left;	
+		.pressekontakt-data,
+		.pressekontakt-image {
+			float: left;
 		}
-		
-		@media (min-width: 768px) {
-			.pressekontakt-data, .pressekontakt-image {
+
+		@media(min-width: 768px) {
+			.pressekontakt-data,
+			.pressekontakt-image {
 				float: right;
-				text-align:right;
+				text-align: right;
 			}
 		}
 	</style>
@@ -32,7 +34,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12 col-sm-8">
-				<h1>Presse-innhold for {{ avis.getName() }}</h1>
+				<h1>Presse-innhold for
+					{{ avis.getName() }}</h1>
 				<p class="lead">Alt innhold kan brukes fritt så lenge det krediteres UKM Media</p>
 				<div class="clearfix"></div>
 			</div>
@@ -40,20 +43,20 @@
 				<h1></h1>
 				<p>
 					<b>Informasjon fra ditt registrerte nedslagsfelt:</b>
-					
+
 					{% for kommune in avis.getNedslagsfelt() %}
 						{{ kommune.getNavn() }}{{ loop.last ? '.' : ', '}}
 					{% else %}
 						Vi har ikke registrert noen kommuner til ditt nedslagsfelt.
 					{% endfor %}
-					<br />
+					<br/>
 					<a href="mailto:support@ukm.no?subject=MinPressemelding">Feil nedslagsfelt? Send oss en e-post</a>
 				</p>
-			</div>	
+			</div>
 		</div>
 		<div class="clearfix"></div>
 	</div>
-	
+
 	{% if vis_festival %}
 		{# ###################### FESTIVALEN ####################### #}
 		<div class="banner mt-5 mb-4" style="background: #d75d0c; color: #fff;">
@@ -64,11 +67,13 @@
 							UKM-festivalen
 						</h1>
 						<p class="lead">
-							{{ land.monstring.getStart()|date("d.M") }} - {{ land.monstring.getStop()|date("d.M Y") }}
+							{{ land.monstring.getStart()|date("d.M") }}
+							-
+							{{ land.monstring.getStop()|date("d.M Y") }}
 						</p>
 						<p>
 							Informasjon oppdateres fortløpende gjennom arrangementet.
-							<br />
+							<br/>
 							Bilder og filmer av alle deltakere tilgjengeliggjøres kort tid etter deres opptredener.
 						</p>
 					</div>
@@ -90,32 +95,42 @@
 		</div>
 	{% endif %}
 
-	{# ###################### FYLKESMØNSTRING ####################### #}	
+	{# ###################### FYLKESMØNSTRING ####################### #}
+	{% for arrangement in omrade.getArrangementer(sesong).getAll() %}
 		<div class="banner mt-5 mb-4" style="background: #d75d0c; color: #fff;">
-		<div class="container">
-			<div class="row">
-				<div class="col-12 col-sm-8">
-					<h1 class="mt-2 mb-0">
-						{{ fylke.monstring.getNavn() }}
-					</h1>
-					<p class="lead">
-						{{ fylke.monstring.getStart()|date("d.M") }} - {{ fylke.monstring.getStop()|date("d.M Y") }}
-					</p>
-					<p>
-						Informasjon oppdateres fortløpende gjennom arrangementet.
-						<br />
-						Bilder og filmer av alle deltakere tilgjengeliggjøres kort tid etter deres opptredener.
-					</p>
+			<div class="container">
+				<div class="row">
+					<div class="col-12 col-sm-8">
+						<h1 class="mt-2 mb-0">
+							{{ arrangement.getNavn() }}
+						</h1>
+						<p class="lead">
+							{{ arrangement.getStart()|date("d.M") }}
+							-
+							{{ arrangement.getStop()|date("d.M Y") }}
+						</p>
+						<p>
+							Informasjon oppdateres fortløpende gjennom arrangementet.
+							<br/>
+							Bilder og filmer av alle deltakere tilgjengeliggjøres kort tid etter deres opptredener.
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<div class="clearfix"></div>
-				{% embed "MinPRBundle:Hjem:monstring.html.twig" with {'monstring': fylke, 'mediegrupper': fylke.mediegrupper } %}{% endembed %}
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="clearfix"></div>
+
+					{% embed "MinPRBundle:Hjem:monstring.html.twig" with {'arrangement': arrangement } %}{% endembed %}
+
+				</div>
 			</div>
+
 		</div>
-	</div>
+	{% else %}
+		<p>Beklager, vi fant ingen arrangement for 
+			{{ omrade.getNavn() }}</p>
+	{% endfor %}
 {% endblock %}
