@@ -13,20 +13,22 @@ use innslag_v2 as innslag_v2;
 use bilder;
 use bilde;
 use bilde_storrelse;
+use UKMNorge\Arrangement\Arrangement;
+use UKMNorge\Samtykke\Innslag;
 use wp_author;
+
+require_once('UKM/Autoloader.php');
 
 class FilmerController extends Controller
 {
 	public function bygginnAction($avis, $pl_id, $b_id)
 	{
-		require_once('UKM/monstring.class.php');
 		require_once('UKM/avis.class.php');
-		require_once('UKM/innslag.class.php');
 		
-		$TWIG['monstring'] = new monstring_v2( $pl_id );
+		$TWIG['monstring'] = new Arrangement( $pl_id );
 		$TWIG['mediegrupper'] = array('land'=>'UKM-festivalen', 'fylke'=>'Fylkesfestival', 'kommune'=>'Lokalmønstring');
 		$TWIG['avis'] = new avis( (int) $avis );
-		$TWIG['innslag'] = new innslag_v2( $b_id );
+		$TWIG['innslag'] = new Innslag( $b_id );
 		return $this->render('MinPRBundle:Filmer:bygginn.html.twig', $TWIG);
 	}
 	
@@ -35,7 +37,7 @@ class FilmerController extends Controller
 		require_once('UKM/monstring.class.php');
 		require_once('UKM/avis.class.php');
 		
-		$monstring = new monstring_v2( $pl_id );
+		$monstring = new Arrangement( $pl_id );
 		$wpServ = $this->get('min_pr.wordpress_option');
 		$wpServ->setMonstring( $monstring->getId(), $monstring->getPath() );
 		

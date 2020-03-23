@@ -1,4 +1,4 @@
-{% for key, name in mediegrupper if innslag.getBilder().getAllFrom(key)|length > 0 %}
+{% for key, name in mediegrupper|filter(innslag => innslag.getBilder().getAllFrom(key)|length > 0) %}
 	<p class="bold mt-4 mb-1">
 		Bilder fra {{ name }}
 	</p>

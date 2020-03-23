@@ -11,23 +11,18 @@ use SQL as SQL;
 use monstring as monstring;
 use monstring_v2 as monstring_v2;
 use innslag_v2 as innslag_v2;
-use innslag_collection as innslag_collection;
 use program as program;
-use forestilling_v2 as forestilling_v2;
-use forestillinger as forestillinger;
 use artikler;
 use artikkel;
+use UKMNorge\Arrangement\Arrangement;
+
+require_once('UKM/Autoloader.php');
 
 class HjemController extends Controller
 {
     public function oversiktAction($id)
     {
 	    require_once('UKM/avis.class.php');
-	    require_once('UKM/monstringer.class.php');
-	    require_once('UKM/monstring.class.php');
-	    require_once('UKM/innslag.class.php');
-	    require_once('UKM/forestillinger.collection.php');
-	    require_once('UKM/forestilling.class.php');
 	    
 	    $TWIG = array();
 
@@ -67,7 +62,7 @@ class HjemController extends Controller
 
 			$festivalen = new \landsmonstring( $season );
 			$festivalpl = $festivalen->monstring_get();
-			$TWIG['land']['monstring'] = new monstring_v2( $festivalpl->get('pl_id') );
+			$TWIG['land']['monstring'] = new Arrangement( $festivalpl->get('pl_id') );
 			
 			$pameldte = $TWIG['land']['monstring']->getInnslag()->getAll();
 			foreach( $pameldte as $innslag ) {

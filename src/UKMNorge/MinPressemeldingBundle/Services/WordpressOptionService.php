@@ -1,10 +1,10 @@
 <?php
 namespace UKMNorge\MinPressemeldingBundle\Services;
-use wp_option;
+use UKMNorge\Wordpress\Outside\Option;
 use Exception;
 
 require_once('UKMconfig.inc.php');
-require_once('UKM/wp_option.class.php');
+require_once('UKM/Autoloader.php');
 
 
 class WordpressOptionService
@@ -24,8 +24,8 @@ class WordpressOptionService
 		if( false === $this->pl_id || false === $this->path ) {
 			throw new Exception('WordpressOptionService: getOption krever at setMonstring er kjørt først');
 		}
-		wp_option::setMonstring( $this->pl_id, $this->path );
-		$value = wp_option::getOption( $key );
+		Option::setMonstring( $this->pl_id, $this->path );
+		$value = Option::get( $key );
 		if( is_string( $value ) ) {
 			return $value;
 		}

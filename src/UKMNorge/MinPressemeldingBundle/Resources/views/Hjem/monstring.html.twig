@@ -18,7 +18,7 @@
 </h2>
 <ol class="list-group mt-2">
 	{% for innslag in monstring.mine_innslag %}
-		<li class="list-group-item my-4" {{ loop.index is divisibleby( 2 ) ? 'style="background: #f7f7f9"' }}>
+		<li class="list-group-item my-4" {{ loop.index is divisible by( 2 ) ? 'style="background: #f7f7f9"' }}>
 			<div class="pull-right" style="opacity: 0.65">
 				{{ innslag.getKommune().getNavn() }}
 			</div>
