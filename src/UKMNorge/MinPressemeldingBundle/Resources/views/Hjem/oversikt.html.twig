@@ -96,7 +96,7 @@
 	{% endif %}
 
 	{# ###################### FYLKESMØNSTRING ####################### #}
-	{% for arrangement in omrade.getArrangementer(sesong).getAll() %}
+	{% for arrangement in omrade.getAktuelleArrangementer().getAll() %}
 		<div class="banner mt-5 mb-4" style="background: #d75d0c; color: #fff;">
 			<div class="container">
 				<div class="row">

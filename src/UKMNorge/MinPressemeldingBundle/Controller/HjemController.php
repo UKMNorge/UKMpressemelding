@@ -3,6 +3,7 @@
 namespace UKMNorge\MinPressemeldingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use UKMNorge\Arrangement\Filter;
 use UKMNorge\Avis\Avis;
 use UKMNorge\Nettverk\Omrade;
 use UKMNorge\Arrangement\Load as ArrangementLoad;
@@ -25,7 +26,7 @@ class HjemController extends Controller
 
         $omrade = Omrade::getByFylke($fylke->getId());
 
-        foreach ($omrade->getArrangementer($sesong)->getAll() as $arrangement) {
+        foreach ($omrade->getAktuelleArrangementer()->getAll() as $arrangement) {
             $i_mitt_nedsalgsfelt = array();
             foreach ($arrangement->getInnslag()->getAll() as $innslag) {
                 if ($innslag != $nedslagsfelt) {
@@ -37,7 +38,9 @@ class HjemController extends Controller
             $arrangement->setAttr('innslag_som_skal_vises', $i_mitt_nedsalgsfelt);
         }
 
-        $arr = ArrangementLoad::byEier($sesong, $fylke);
+        $filter = new Filter();
+        $filter->sesong($sesong);
+        $arr = ArrangementLoad::byEier($fylke, $filter);
 
         $TWIG = [
             'avis' => $avis,
